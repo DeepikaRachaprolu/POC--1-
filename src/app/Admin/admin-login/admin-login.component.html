@@ -1,0 +1,18 @@
+<div>
+  <form [formGroup]="loginForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Enter Email" autocomplete="off" formControlName="email" />
+      <mat-error *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+        {{ emessage.Email }}
+      </mat-error>
+    </mat-form-field><br />
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Enter Password" autocomplete="off" type="password" formControlName="password" />
+    </mat-form-field><br />
+
+    <button mat-raised-button color="primary" (click)="loginClicked()" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</div>

@@ -1,0 +1,62 @@
+
+form {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+
+  form > div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+ 
+  #file-upload {
+    margin-top: 10px;
+  }
+
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+  }
+  
+
+  .button-group button {
+    flex: 1 0 auto;
+    max-width: 200px;
+  }
+  
+ 
+  @media (max-width: 768px) {
+    form {
+      padding: 20px;
+    }
+  
+    .button-group {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 16px; 
+          
+    }
+  
+    /* .button-group button {
+      max-width: none;
+      gap :100px;
+    } */
+  }
+  

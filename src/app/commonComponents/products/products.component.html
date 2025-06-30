@@ -1,0 +1,81 @@
+<div>
+  <form [formGroup]="searchupload">
+    <div class="nav">
+      <div class="search">
+        <mat-form-field class="search-bar">
+          <mat-icon matPrefix (click)="Search($event)" class="icon-clickable">search</mat-icon>
+
+          <input matInput placeholder="Search products" formControlName="search" (keyup)="Search($event)" />
+          <i class="fa-solid fa-camera icon-clickable" matSuffix (click)="openFileInput()"></i>
+        </mat-form-field>
+
+        <input type="file" accept="image/*" formControlName="fileupload" id="file-upload" #fileInput
+          (change)="onFileSelected($event)" style="display: none" multiple />
+        <!-- Voice search button -->
+        <button type="button" (click)="startVoiceSearch()" class="voice-search-button">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+
+      </div>
+
+
+
+      <mat-form-field appearance="fill">
+        <mat-label>Sort By</mat-label>
+        <mat-select (selectionChange)="onSortChange($event.value)">
+          <mat-option value="">Default</mat-option>
+          <mat-option value="priceLowHigh">Price: Low to High</mat-option>
+          <mat-option value="priceHighLow">Price: High to Low</mat-option>
+          <mat-option value="ratingHighLow">Rating: High to Low</mat-option>
+          <mat-option value="ratingLowHigh">Rating: Low to High</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="cart">
+        <i class="fa-solid fa-cart-shopping" (click)="addcart()"></i>
+      </div>
+      <div class="uploadproduct" *ngIf="isAdmin">
+        <button class="primary"  (click)="productsupload()">Sell Products</button>
+
+      </div>
+    </div>
+  </form>
+
+  <div class="container">
+    <div class="card" *ngFor="let prod of storeresponse | async; let i = index" (click)="goToProductDetail(prod.id)">
+      <div>
+        <img [src]="prod.image" alt="Avatar" style="width:100%" />
+      </div>
+      <div class="fcontainer">
+        <p>{{ prod.title }}</p>
+        <span>{{ prod.price }}</span>
+
+        <div class="star-rating">
+          <span *ngFor="let star of stars; let i = index">
+            <span [ngClass]="i < getFilledStars(prod.rating.rate) ? 'filled' : 'empty'">★</span>
+          </span>
+        </div>
+        <p>Rating: {{ prod.rating.rate }} ({{ prod.rating.count }} reviews)</p>
+      </div>
+      <div class="add-cart">
+        <button class="primary" >Add Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <mat-paginator [length]="allproducts.length" [pageSize]="pageSize"
+    (page)="onPageChange($event)" aria-label="Select page"></mat-paginator>
+
+
+  <ng-template #noResultsDialog>
+    <h2 mat-dialog-title>No Results Found</h2>
+    <mat-dialog-actions align="center">
+      <button color="primary" class="Dialog-button" (click)="Close()">OK</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <div class="loader-container" *ngIf="isLoading">
+    <mat-spinner diameter="50" color="primary"></mat-spinner>
+  </div>
+  
+
+</div>

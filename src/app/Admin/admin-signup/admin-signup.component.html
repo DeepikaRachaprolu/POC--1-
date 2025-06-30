@@ -1,0 +1,23 @@
+<div>
+  <div class="error-message" *ngIf="signin.get('email')?.hasError('passwordMismatch') &&  signin.get('password')?.hasError('passwordMismatch')">
+   {{emessage.signinError}}
+  </div>
+    <form [formGroup]="signin">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter Email" autocomplete="off" formControlName="email" />
+        <mat-error *ngIf="signin.get('email')?.invalid && (signin.get('email')?.touched || signin.get('email')?.dirty)">
+          {{ emessage.Email }}
+        </mat-error>
+      </mat-form-field><br />
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Enter Password" autocomplete="off" formControlName="password"/>
+      </mat-form-field><br />
+
+      {{data}}
+      <button mat-raised-button color="primary" (click)="login()" [disabled]="signin.invalid">Login</button>
+    </form>
+  </div>
+  

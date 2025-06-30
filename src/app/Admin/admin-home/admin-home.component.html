@@ -1,0 +1,67 @@
+<form [formGroup]="productupload">
+  <div>
+    <label for="file-upload">Choose a file:</label>
+    <input 
+    type="file" 
+    id="file-upload"
+    formControlName="fileupload"
+    (change)="onFilesSelected($event)"
+    accept="image/*" 
+    multiple
+  />
+  
+  </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Select Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option value="one">Fashion</mat-option>
+          <mat-option value="two">Beauty</mat-option>
+          <mat-option value="three">Pharma</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="ProductName" placeholder="Enter Product Name"/>
+      </mat-form-field>
+    </div>
+  
+    <div>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>original price</mat-label>
+        <input matInput formControlName="price" type="number" placeholder="Enter Original price"/>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>offer price</mat-label>
+        <input matInput formControlName="offerprice"  type="number" placeholder="Enter offer price"/>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Quantity </mat-label>
+        <input matInput formControlName="quantity" type="number" placeholder="Enter quantity"/>
+      </mat-form-field>
+    </div>
+
+    <div class="button-group">
+      <button mat-raised-button color="primary" (click)="previewClicked()">Preview</button>
+      <button mat-raised-button color="primary" (click)="uploadClicked()">Upload</button>
+      <button mat-raised-button color="primary" (click)="backPage()">Back to product page</button>
+    </div>
+  </form>
+  

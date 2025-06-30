@@ -1,0 +1,24 @@
+<div class="product-preview-container">
+  <h1 class="product-title">Product Preview</h1>
+  
+  <div *ngIf="image" class="image-container">
+    <img [src]="image" alt="Uploaded Product Image" name="image1" class="product-image"/>
+  </div>
+  
+  <h2 class="product-name">{{ productName }}</h2>
+  <p class="product-description">{{ description }}</p>
+
+  <div class="product-details">
+    <p class="price"><strong>Price:</strong> <span class="offer-price">{{offerprice}}</span> <s class="original-price">{{ price }}</s> <span class="offer-percentage">{{ offerPercentage }}%</span></p>
+    <p class="availability"><strong>Availability:</strong> {{ availability ? 'In Stock' : 'Out of Stock' }}</p>
+    
+    <div class="quantity-selector">
+      <label for="quantity">Quantity: </label>
+      <select id="quantity" class="quantity-dropdown">
+        <option *ngFor="let qty of availableQuantities(quantity)" [value]="qty">{{ qty }}</option>
+      </select>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="Editclicked()" class="edit-button">Edit</button>
+</div>
