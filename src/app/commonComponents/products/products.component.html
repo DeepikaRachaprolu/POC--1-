@@ -47,7 +47,7 @@
       </div>
       <div class="fcontainer">
         <p>{{ prod.title }}</p>
-        <span>{{ prod.price }}</span>
+        <span>{{ prod.price | curreny}}</span>
 
         <div class="star-rating">
           <span *ngFor="let star of stars; let i = index">

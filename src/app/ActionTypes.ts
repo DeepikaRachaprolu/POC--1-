@@ -3,7 +3,9 @@ import { createAction, props } from '@ngrx/store';
 
 export const getall = createAction('[products] getall', props<{ products: any[]}>());
 
-export const searchitems = createAction('[searchproducts] Search Items', props<{searchElement : string}>())
+export const searchitems = createAction('[searchproducts] Search Items', props<{searchElement : string}>());
+
+export const sortItems = createAction('[sortitems] Sort Items', props<{sortValue : string}>());
 
 export const addCartItem = createAction('[Cart] Add Cart', props<{ cartitems: any}> ());
 

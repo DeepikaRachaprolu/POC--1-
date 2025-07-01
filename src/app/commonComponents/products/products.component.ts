@@ -16,13 +16,17 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../../app/ActionTypes';
 import { selectProducts } from '../../selectors';
+import { CurrenyPipe } from "../../pipe/curreny.pipe";
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-products',
-  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule,CommonModule,MatPaginatorModule, MatSelectModule, MatIconModule, MatDialogModule, MatProgressSpinnerModule],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, CommonModule, MatPaginatorModule, MatSelectModule, MatIconModule, MatDialogModule, MatProgressSpinnerModule, CurrenyPipe],
+  providers: [CurrencyPipe],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.css'
+  styleUrl: './products.component.css',
+  
 })
 export class ProductsComponent {
   
@@ -107,23 +111,8 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
     onSortChange(sortValue: string) {
       this.selectedSort = sortValue;
     
-      switch (this.selectedSort) {
-        case 'priceLowHigh':
-          this.allproducts.sort((a, b) => a.price - b.price);
-          break;
-        case 'priceHighLow':
-          this.allproducts.sort((a, b) => b.price - a.price);
-          break;
-        case 'ratingHighLow':
-          this.allproducts.sort((a, b) => b.rating.rate - a.rating.rate);
-          break;
-        case 'ratingLowHigh':
-          this.allproducts.sort((a, b) => a.rating.rate - b.rating.rate);
-          break;
-        default:
-          this.allproducts = [...this.products]; 
-          break;
-      }
+       this.store.dispatch(UserActions.sortItems({sortValue: sortValue}));
+      //  this.storeresponse = this.store.select()
     
       
       this.currentPage = 0;
