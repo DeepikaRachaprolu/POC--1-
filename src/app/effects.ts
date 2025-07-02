@@ -15,17 +15,14 @@ export class ProductEffects {
   loadProducts$ = createEffect(() =>
     this.actions.pipe(
       ofType(ProductActions.loadProducts),
-      mergeMap(({ pageIndex, pageSize }) =>
+      mergeMap(() =>
         this.productService.getallProducts().pipe(
-          map((allProducts: any) => {
-            const start = pageIndex * pageSize;
-            const end = start + pageSize;
-            const paginated = allProducts.slice(start, end);
-            return ProductActions.loadProductsSuccess({
-              products: paginated,
+          map((allProducts: any[]) =>
+            ProductActions.loadProductsSuccess({
+              products: allProducts,
               total: allProducts.length,
-            });
-          }),
+            })
+          ),
           catchError(error =>
             of(ProductActions.loadProductsFailure({ error }))
           )

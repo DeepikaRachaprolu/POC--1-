@@ -8,7 +8,7 @@ export const selectProductState = createFeatureSelector<ProductState>('product')
 
 export const selectProducts = createSelector(
   selectProductState,
-  (state) => state.products
+  (state) => state.paginatedProducts
 );
 
 export const totalProductCount = createSelector(

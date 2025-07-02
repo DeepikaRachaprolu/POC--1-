@@ -59,11 +59,12 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
     }
 
 
-    ngOnInit(){
-      this.store.dispatch(UserActions.loadProducts({ pageIndex: this.currentPage, pageSize: this.pageSize }));
-      this.storeresponse = this.store.select(selectProducts);
-      this.totalProductsCount = this.store.select(totalProductCount);
-    }
+ngOnInit() {
+  this.store.dispatch(UserActions.loadProducts());
+  this.storeresponse = this.store.select(selectProducts);
+  this.totalProductsCount = this.store.select(totalProductCount);
+}
+
   
     searchupload: FormGroup = new FormGroup({
       search: new FormControl('', Validators.required),
@@ -87,24 +88,25 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
 
    
     
-    onPageChange(event: any) {
-      this.pageSize = event.pageSize;
-      this.currentPage = event.pageIndex;
-      this.store.dispatch(UserActions.loadProducts({ pageIndex: this.currentPage, pageSize: this.pageSize }));
-      console.log("pagesize", this.pageSize);
-      console.log("current page", this.currentPage);
-    }
- 
-    onSortChange(sortValue: string) {
-      this.selectedSort = sortValue;
-    
-       this.store.dispatch(UserActions.sortItems({sortValue: sortValue}));
-      //  this.storeresponse = this.store.select()
-    
-      
-      this.currentPage = 0;
-      // this.updatePaginatedProducts();
-    }
+  onPageChange(event: any) {
+  this.pageSize = event.pageSize;
+  this.currentPage = event.pageIndex;
+  this.store.dispatch(UserActions.changePage({
+    pageIndex: this.currentPage,
+    pageSize: this.pageSize
+  }));
+}
+
+ onSortChange(sortValue: string) {
+  this.selectedSort = sortValue;
+  this.store.dispatch(UserActions.sortItems({ sortValue }));
+  this.currentPage = 0;
+  this.store.dispatch(UserActions.changePage({
+    pageIndex: this.currentPage,
+    pageSize: this.pageSize
+  }));
+}
+
     
 
     startVoiceSearch() {
