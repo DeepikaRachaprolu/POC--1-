@@ -1,36 +1,54 @@
 import { createReducer, on } from '@ngrx/store';
-import * as CounterActions from './ActionTypes';
+import * as ProductActions from './ActionTypes';
 
 export interface ProductState {
   products: any[];
-  allproducts: any[];
+  total: number;
+  loading: boolean;
+  error: any;
 }
 
 export const initialState: ProductState = {
   products: [],
-  allproducts: []
+  total: 0,
+  loading: false,
+  error: null
 };
 
 export const productReducer = createReducer(
   initialState,
 
-  on(CounterActions.getall, (state, { products }) => ({
+  on(ProductActions.loadProducts, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+
+ 
+  on(ProductActions.loadProductsSuccess, (state, { products, total }) => ({
     ...state,
     products,
-    allproducts: products
+    total,
+    loading: false
+  })),
+
+  
+  on(ProductActions.loadProductsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   })),
 
 
-  on(CounterActions.searchitems, (state, { searchElement }) => ({
+  on(ProductActions.searchItems, (state, { searchElement }) => ({
     ...state,
-    products: state.allproducts.filter(product =>
+    products: state.products.filter(product =>
       product.title.toLowerCase().includes(searchElement.toLowerCase())
     )
   })),
 
- 
-  on(CounterActions.sortItems, (state, { sortValue }) => {
-    let sortedProducts = [...state.allproducts]; 
+  on(ProductActions.sortItems, (state, { sortValue }) => {
+    let sortedProducts = [...state.products];
 
     switch (sortValue) {
       case 'priceLowHigh':

@@ -7,10 +7,11 @@ import { provideStore } from '@ngrx/store';
 import { productReducer } from './reducer';
 import { provideEffects } from '@ngrx/effects';
 import { CartReducer } from './cart.reducer';
+import { ProductEffects } from './effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    provideStore({ product: productReducer, cart:CartReducer }), provideEffects()]
+    provideStore({ product: productReducer, cart:CartReducer }), provideEffects([ProductEffects])]
 };

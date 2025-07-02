@@ -15,9 +15,10 @@ import { BlockScrollStrategy } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../../app/ActionTypes';
-import { selectProducts } from '../../selectors';
+import { selectProducts, totalProductCount } from '../../selectors';
 import { CurrenyPipe } from "../../pipe/curreny.pipe";
 import { CurrencyPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -43,6 +44,7 @@ image: HTMLImageElement | undefined;
 isLoading: boolean = false;
 isAdmin: boolean =  true;
 storeresponse : any;
+totalProductsCount: Observable<number> = new Observable();
 
 
 isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
@@ -58,24 +60,9 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
 
 
     ngOnInit(){
-     this.getallproducts();
-    }
-
-    getallproducts(){
-       this.productDataService.getallProducts().subscribe(
-        (response) => {
-          this.products = response; 
-          this.allproducts = response;
-          const startIndex = this.currentPage * this.pageSize;
-      const endIndex = startIndex + this.pageSize;
-      this.products = this.allproducts.slice(startIndex, endIndex);
-          console.log('Fetched products:', response);  
-           this.store.dispatch(UserActions.getall({ products: this.products }));
-        },
-        (error) => {
-          console.error('Error fetching products:', error);  
-        }
-      );
+      this.store.dispatch(UserActions.loadProducts({ pageIndex: this.currentPage, pageSize: this.pageSize }));
+      this.storeresponse = this.store.select(selectProducts);
+      this.totalProductsCount = this.store.select(totalProductCount);
     }
   
     searchupload: FormGroup = new FormGroup({
@@ -91,7 +78,7 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
 
     Search(event: any) {
       if (event.target.value.length > 1) {
-       this.store.dispatch(UserActions.searchitems({searchElement: event.target.value}));
+       this.store.dispatch(UserActions.searchItems({searchElement: event.target.value}));
        
       } else {
         this.storeresponse = this.store.select(selectProducts);
@@ -103,7 +90,7 @@ isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkit
     onPageChange(event: any) {
       this.pageSize = event.pageSize;
       this.currentPage = event.pageIndex;
-      this.getallproducts();
+      this.store.dispatch(UserActions.loadProducts({ pageIndex: this.currentPage, pageSize: this.pageSize }));
       console.log("pagesize", this.pageSize);
       console.log("current page", this.currentPage);
     }

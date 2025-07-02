@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <mat-paginator [length]="allproducts.length" [pageSize]="pageSize"
+  <mat-paginator [length]="totalProductsCount | async" [pageSize]="pageSize"
     (page)="onPageChange($event)" aria-label="Select page"></mat-paginator>
 
 

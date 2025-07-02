@@ -11,6 +11,11 @@ export const selectProducts = createSelector(
   (state) => state.products
 );
 
+export const totalProductCount = createSelector(
+  selectProductState,
+  (state) => state.total
+);
+
 export const selectedCartItems = createSelector(
   selectedCartItemsState,
   (state) => state.cartItems
