@@ -1,3 +1,10 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  background: #f5f7fa;
+}
+
 div {
   display: flex;
   justify-content: center;
@@ -25,4 +32,38 @@ button {
   width: 100%;
   font-weight: bold;
   letter-spacing: 1px;
+  background: #007bff;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  padding: 12px 0;
+  font-size: 16px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #b0c4de;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.error-message {
+  color: #e53935;
+  background: #ffeaea;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  form {
+    min-width: 90vw;
+    padding: 18px 8px;
+  }
 }
