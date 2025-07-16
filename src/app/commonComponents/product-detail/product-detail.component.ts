@@ -18,6 +18,8 @@ export class ProductDetailComponent {
   product: any;
 
   quantity: number = 1;
+  isCartAnimating = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -32,15 +34,26 @@ export class ProductDetailComponent {
       this.product = data;
     });
   }
+ 
 
-  addToCart() {
-    const item = {
-      ...this.product,
-      quantity: this.quantity
-    };
-    this.cartService.addItemToCart(item);
-    this.store.dispatch(UserActions.addCartItem({cartitems:item}));
-    
-    alert('Product added to cart!');
-  }
+
+
+addToCart() {
+  const item = {
+    ...this.product,
+    quantity: this.quantity
+  };
+  this.cartService.addItemToCart(item);
+  this.store.dispatch(UserActions.addCartItem({ cartitems: item }));
+
+  this.isCartAnimating = true;
+
+
+  setTimeout(() => {
+    this.isCartAnimating = false;
+  }, 3000);
+}
+
+
+
 }

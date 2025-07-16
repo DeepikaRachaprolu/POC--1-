@@ -1,27 +1,30 @@
 import { Injectable } from '@angular/core';
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
-import * as tf from '@tensorflow/tfjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ObjectDetectionService {
-  model: cocoSsd.ObjectDetection | undefined;
+  private model: any;
+  private tf: any;
 
-  constructor() {
-    this.loadModel();
-  }
+  constructor() {}
 
-  async loadModel() {
-    await tf.setBackend('webgl');
-    await tf.ready(); 
-    this.model = await cocoSsd.load();
-  }
-
-  async detectObjects(image: HTMLCanvasElement) {
+  async loadModel(): Promise<void> {
     if (!this.model) {
-      throw new Error('Model not loaded');
+      this.tf = await import('@tensorflow/tfjs');
+      await this.tf.setBackend('webgl');
+      await this.tf.ready();
+
+      const cocoSsd = await import('@tensorflow-models/coco-ssd');
+      this.model = await cocoSsd.load();
+      console.log('Model loaded.');
     }
-    return await this.model.detect(image);
+  }
+
+  async detectObjects(image: HTMLCanvasElement | HTMLImageElement | HTMLVideoElement): Promise<any[]> {
+    if (!this.model) {
+      throw new Error('Model not loaded. Call loadModel() first.');
+    }
+    return this.model.detect(image);
   }
 }

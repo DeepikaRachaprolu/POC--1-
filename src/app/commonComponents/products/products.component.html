@@ -30,9 +30,10 @@
           <mat-option value="ratingLowHigh">Rating: Low to High</mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="cart">
-        <i class="fa-solid fa-cart-shopping" (click)="addcart()"></i>
-      </div>
+     <div class="cart">
+  <i class="fa-solid fa-cart-shopping" (click)="addcart()"></i>
+  <span class="cart-badge" *ngIf="cartCount$ | async as count">{{ count }}</span>
+</div>
       <div class="uploadproduct" *ngIf="isAdmin">
         <button class="primary"  (click)="productsupload()">Sell Products</button>
 

@@ -15,11 +15,11 @@ import { BlockScrollStrategy } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as UserActions from '../../../app/ActionTypes';
-import { selectProducts, totalProductCount } from '../../selectors';
+import { selectProducts, totalProductCount, selectedCartItems } from '../../selectors';
 import { CurrenyPipe } from "../../pipe/curreny.pipe";
 import { CurrencyPipe } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products',
@@ -45,7 +45,7 @@ isLoading: boolean = false;
 isAdmin: boolean =  true;
 storeresponse : any;
 totalProductsCount: Observable<number> = new Observable();
-
+cartCount$!: Observable<number>;
 
 isSpeechRecognitionSupported: boolean = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -63,6 +63,9 @@ ngOnInit() {
   this.store.dispatch(UserActions.loadProducts());
   this.storeresponse = this.store.select(selectProducts);
   this.totalProductsCount = this.store.select(totalProductCount);
+  this.cartCount$ = this.store.select(selectedCartItems).pipe(
+    map(items => items ? items.length : 0)
+  );
 }
 
   
@@ -78,12 +81,8 @@ ngOnInit() {
     }
 
     Search(event: any) {
-      if (event.target.value.length > 1) {
-       this.store.dispatch(UserActions.searchItems({searchElement: event.target.value}));
-       
-      } else {
-        this.storeresponse = this.store.select(selectProducts);
-      }
+      const value = event.target.value;
+      this.store.dispatch(UserActions.searchItems({ searchElement: value }));
     }
 
    

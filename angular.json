@@ -30,9 +30,15 @@
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
-
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@tensorflow-models/coco-ssd",
+              "seedrandom",
+              "node-fetch",
+              "string_decoder",
+              "long"
+            ]
           },
           "configurations": {
             "production": {
